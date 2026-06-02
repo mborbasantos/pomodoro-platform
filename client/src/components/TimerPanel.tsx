@@ -9,6 +9,7 @@ import { Play, Pause, RotateCcw, SkipForward, Coffee, Zap, Clock } from "lucide-
 import { usePomodoro, TimerMode } from "@/contexts/PomodoroContext";
 import TimerRing from "./TimerRing";
 import Equalizer from "./Equalizer";
+import MusicStatusIndicator from "./MusicStatusIndicator";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -159,16 +160,29 @@ export default function TimerPanel() {
         </div>
       </div>
 
-      {/* Equalizer - shows when music is playing */}
-      {settings.backgroundMusicEnabled && (
-        <div className="w-full px-4">
-          <Equalizer
-            volume={settings.backgroundMusicVolume}
+      {/* Music Status Indicator and Equalizer */}
+      <div className="flex flex-col items-center gap-4 w-full">
+        {/* Music Status Indicator - shows next to timer */}
+        {settings.backgroundMusicEnabled && (
+          <MusicStatusIndicator
             isPlaying={isRunning && !isPaused && mode === "work"}
-            barCount={12}
+            isMusicEnabled={settings.backgroundMusicEnabled}
+            volume={settings.backgroundMusicVolume}
+            musicUrl={settings.backgroundMusicUrl}
           />
-        </div>
-      )}
+        )}
+
+        {/* Equalizer - shows when music is playing */}
+        {settings.backgroundMusicEnabled && (
+          <div className="w-full px-4">
+            <Equalizer
+              volume={settings.backgroundMusicVolume}
+              isPlaying={isRunning && !isPaused && mode === "work"}
+              barCount={12}
+            />
+          </div>
+        )}
+      </div>
 
       {/* Session info */}
       <div className="flex items-center gap-4 text-xs text-white/40">
