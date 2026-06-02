@@ -255,7 +255,7 @@ export default function YouTubePlayer({
             onValueChange={([v]) => onVolumeChange(v)}
             min={0}
             max={100}
-            step={5}
+            step={1}
             className="flex-1 [&_[role=slider]]:bg-cyan-400 [&_[role=slider]]:border-cyan-500"
           />
           <span className="text-xs text-white/30 w-6 text-right">{volume}%</span>

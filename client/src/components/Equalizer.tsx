@@ -34,7 +34,7 @@ export default function Equalizer({
         .fill(0)
         .map(() => {
           // Base height from volume (0-100)
-          const baseHeight = (volume / 100) * 80;
+          const baseHeight = (volume / 100) * 1000;
           // Add random variation (±30% of base height)
           const variation = (Math.random() - 0.5) * baseHeight * 0.6;
           return Math.max(10, Math.min(100, baseHeight + variation));
