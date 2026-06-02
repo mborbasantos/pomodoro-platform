@@ -15,6 +15,7 @@ import TaskList from "@/components/TaskList";
 import StatsPanel from "@/components/StatsPanel";
 import SettingsPanel from "@/components/SettingsPanel";
 import YouTubePlayer from "@/components/YouTubePlayer";
+import DraggablePlayerContainer from "@/components/DraggablePlayerContainer";
 import Confetti from "@/components/Confetti";
 import FocusMode from "@/components/FocusMode";
 import { cn } from "@/lib/utils";
@@ -29,6 +30,7 @@ export default function Home() {
   const [rightPanel, setRightPanel] = useState<"stats" | "settings">("stats");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [focusModeOpen, setFocusModeOpen] = useState(false);
+  const [playerPosition, setPlayerPosition] = useState({ x: typeof window !== 'undefined' ? window.innerWidth - 400 : 0, y: 0 });
 
   const modeGradient = {
     "work": "from-violet-900/20 to-transparent",
@@ -198,11 +200,14 @@ export default function Home() {
           </div>
         </main>
 
-        {/* ─── Persistent YouTube Music Player ───────────────────────────────── */}
+        {/* ─── Persistent YouTube Music Player with Drag Support ───────────────────────────────── */}
         {/* Mounted at app level so it's always available for startTimer() */}
         {settings.backgroundMusicEnabled && (
-          <div className="fixed bottom-20 md:bottom-0 right-0 w-full md:w-96 max-h-96 overflow-hidden z-30 md:border-l md:border-t md:border-white/8 md:bg-[#0D0D1A]/95 md:backdrop-blur-md">
-            <div className="p-4">
+          <DraggablePlayerContainer
+            initialPosition={playerPosition}
+            onPositionChange={setPlayerPosition}
+          >
+            <div className="p-4 w-96 max-h-96 overflow-hidden">
               <YouTubePlayer
                 url={settings.backgroundMusicUrl}
                 volume={settings.backgroundMusicVolume}
@@ -211,7 +216,7 @@ export default function Home() {
                 enabled={settings.backgroundMusicEnabled}
               />
             </div>
-          </div>
+          </DraggablePlayerContainer>
         )}
 
         {/* ─── Mobile Bottom Nav ───────────────────────────────────────────── */}
